@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>lucky_shot</RootNamespace>
+        <RootNamespace>LuckShot.API</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

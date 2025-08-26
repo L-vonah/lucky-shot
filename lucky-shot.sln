@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lucky-shot", "lucky-shot\lucky-shot.csproj", "{E30AFE6E-B55D-4110-A910-105F3B61164A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckShot.API", "LuckShot.API\LuckShot.API.csproj", "{E30AFE6E-B55D-4110-A910-105F3B61164A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckShot.Infrastructure", "LuckShot.Infrastructure\LuckShot.Infrastructure.csproj", "{C6CCBEF5-0300-418D-8C01-BB279643BAAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckShot.Domain", "LuckShot.Domain\LuckShot.Domain.csproj", "{EBF8532F-AB3F-4347-97F9-F72FD97BE2AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +16,13 @@ Global
 		{E30AFE6E-B55D-4110-A910-105F3B61164A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E30AFE6E-B55D-4110-A910-105F3B61164A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E30AFE6E-B55D-4110-A910-105F3B61164A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6CCBEF5-0300-418D-8C01-BB279643BAAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6CCBEF5-0300-418D-8C01-BB279643BAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6CCBEF5-0300-418D-8C01-BB279643BAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6CCBEF5-0300-418D-8C01-BB279643BAAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBF8532F-AB3F-4347-97F9-F72FD97BE2AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF8532F-AB3F-4347-97F9-F72FD97BE2AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBF8532F-AB3F-4347-97F9-F72FD97BE2AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBF8532F-AB3F-4347-97F9-F72FD97BE2AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
