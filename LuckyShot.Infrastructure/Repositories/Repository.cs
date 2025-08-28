@@ -1,9 +1,9 @@
-﻿using LuckShot.Domain;
-using LuckShot.Domain.Entities;
-using LuckShot.Infrastructure.Exceptions;
+﻿using LuckyShot.Domain;
+using LuckyShot.Domain.Entities;
+using LuckyShot.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace LuckShot.Infrastructure.Repositories;
+namespace LuckyShot.Infrastructure.Repositories;
 
 public abstract class Repository<T, TKey>(LuckyShotContext context) : IRepository<T, TKey> where T : DatabaseEntity
 {

@@ -1,7 +1,10 @@
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
+using LuckyShot.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddCors(options =>
 {
@@ -24,6 +27,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Lucky Shot API", Version = "v1" });
+});
+
+// Add services to the container.
+builder.Services.AddDbContext<LuckyShotContext>(options =>
+{
+    options.UseSqlite(connectionString!);
 });
 
 var app = builder.Build();

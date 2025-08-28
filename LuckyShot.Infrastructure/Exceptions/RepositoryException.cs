@@ -1,4 +1,4 @@
-﻿namespace LuckShot.Infrastructure.Exceptions;
+﻿namespace LuckyShot.Infrastructure.Exceptions;
 
 public class RepositoryException : Exception
 {

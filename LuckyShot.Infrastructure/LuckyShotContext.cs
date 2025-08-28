@@ -1,8 +1,7 @@
-﻿using LuckShot.Domain;
-using LuckShot.Domain.Entities;
+﻿using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LuckShot.Infrastructure;
+namespace LuckyShot.Infrastructure;
 
 public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbContext(options)
 {
@@ -17,7 +16,7 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
         
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.Uuid);
+            entity.HasKey(e => e.Id);
             entity.HasOne(e => e.CurrentSeason)
                 .WithMany()
                 .HasForeignKey(e => e.CurrentSeasonId)

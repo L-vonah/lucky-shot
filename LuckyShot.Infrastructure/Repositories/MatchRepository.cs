@@ -1,8 +1,7 @@
-﻿using LuckShot.Domain;
-using LuckShot.Domain.Entities;
+﻿using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LuckShot.Infrastructure.Repositories;
+namespace LuckyShot.Infrastructure.Repositories;
 
 public class MatchRepository(LuckyShotContext context) : Repository<Match, int>(context)
 {

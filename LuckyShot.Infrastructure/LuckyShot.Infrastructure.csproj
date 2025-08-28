@@ -4,15 +4,19 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>LuckShot.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.19" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.19" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LuckShot.Domain\LuckShot.Domain.csproj" />
+      <ProjectReference Include="..\LuckyShot.Domain\LuckyShot.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\" />
     </ItemGroup>
 
 </Project>
