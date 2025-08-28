@@ -1,4 +1,4 @@
-﻿namespace LuckShot.Domain;
+﻿namespace LuckShot.Domain.Entities;
 
 public class Competition(string name, string code, string logo, int externalId) : DatabaseEntity
 {

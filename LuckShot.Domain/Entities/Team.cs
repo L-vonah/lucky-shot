@@ -1,4 +1,4 @@
-namespace LuckShot.Domain;
+namespace LuckShot.Domain.Entities;
 
 public class Team(string name, string logo, int externalId) : DatabaseEntity
 {

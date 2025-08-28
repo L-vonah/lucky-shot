@@ -1,4 +1,5 @@
 ﻿using LuckShot.Domain;
+using LuckShot.Domain.Entities;
 using LuckShot.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 

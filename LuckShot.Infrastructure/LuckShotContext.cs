@@ -1,4 +1,5 @@
 ﻿using LuckShot.Domain;
+using LuckShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LuckShot.Infrastructure;

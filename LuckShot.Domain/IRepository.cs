@@ -1,3 +1,5 @@
+using LuckShot.Domain.Entities;
+
 namespace LuckShot.Domain;
 
 public interface IRepository<T, in TKey> where T : DatabaseEntity
