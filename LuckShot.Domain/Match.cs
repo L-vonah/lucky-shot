@@ -6,7 +6,7 @@ public class Match(
     int matchRound,
     int homeTeamId,
     int awayTeamId,
-    int externalId)
+    int externalId) : DatabaseEntity
 {
     public int Id { get; set; }
     public DateTime Date { get; set; } = date;

@@ -6,7 +6,7 @@ public class Season(
     DateTime startDate,
     DateTime endDate,
     string externalId,
-    int currentRound = 1)
+    int currentRound = 1) : DatabaseEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = name;

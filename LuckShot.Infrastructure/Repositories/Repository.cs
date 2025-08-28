@@ -1,19 +1,10 @@
+﻿using LuckShot.Domain;
 using LuckShot.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace LuckShot.Infrastructure.Repositories;
 
-public interface IRepository<T, in TKey> where T : class
-{
-    Task<T?> GetByIdAsync(TKey id);
-    Task AddAsync(T entity);
-    Task UpdateAsync(T entity);
-    Task RemoveAsync(T entity);
-    Task<bool> ExistsAsync(TKey id);
-}
-
-
-public abstract class Repository<T, TKey>(LuckyShotContext context) : IRepository<T, TKey> where T : class
+public abstract class Repository<T, TKey>(LuckyShotContext context) : IRepository<T, TKey> where T : DatabaseEntity
 {
     private DbSet<T> DbSet => context.Set<T>();
 

@@ -1,6 +1,6 @@
 namespace LuckShot.Domain;
 
-public class Team(string name, string logo, int externalId)
+public class Team(string name, string logo, int externalId) : DatabaseEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = name;
