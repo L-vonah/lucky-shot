@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>59ee0143-d06f-4c6c-a832-4b1ca51fa2e4</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\ApiFootball\ApiFootball.csproj" />
         <ProjectReference Include="..\LuckyShot.Domain\LuckyShot.Domain.csproj" />
         <ProjectReference Include="..\LuckyShot.Infrastructure\LuckyShot.Infrastructure.csproj" />
     </ItemGroup>

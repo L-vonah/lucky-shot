@@ -1,7 +1,8 @@
-using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Models;
+using ApiFootball.Extensions;
 using LuckyShot.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -34,6 +35,7 @@ builder.Services.AddDbContext<LuckyShotContext>(options =>
 {
     options.UseSqlite(connectionString!);
 });
+builder.Services.AddApiFootballServices(builder.Configuration);
 
 var app = builder.Build();
 
