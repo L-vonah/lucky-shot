@@ -1,31 +1,27 @@
 ﻿namespace ApiFootball.Dtos;
 
-internal class CompetitionMatchResponse
-{
-    public List<MatchResponse> Matches { get; init; } = [];
-    public CompetitionBaseResponse Competition { get; init; } = null!;
-}
+public record CompetitionMatchResponse(
+    List<MatchResponse> Matches,
+    CompetitionBaseResponse Competition
+);
 
-internal class MatchResponse
-{
-    public int Id { get; init; }
-    public DateTime UtcDate { get; init; }
-    public DateTime LastUpdated { get; init; }
-    public int Matchday { get; init; }
-    public string Status { get; init; } = null!;
-    public TeamBaseResponse HomeTeam { get; init; } = null!;
-    public TeamBaseResponse AwayTeam { get; init; } = null!;
-    public ScoreResponse Score { get; init; } = null!;
-}
+public record MatchResponse(
+    int Id,
+    DateTime UtcDate,
+    DateTime LastUpdated,
+    int Matchday,
+    string Status,
+    TeamBaseResponse HomeTeam,
+    TeamBaseResponse AwayTeam,
+    ScoreResponse Score
+);
 
-internal class ScoreResponse
-{
-    public ScoreDetailResponse FullTime { get; init; } = null!;
-    public ScoreDetailResponse HalfTime { get; init; } = null!;
-}
+public record ScoreResponse(
+    ScoreDetailResponse FullTime,
+    ScoreDetailResponse HalfTime
+);
 
-internal class ScoreDetailResponse
-{
-    public int? Home { get; init; }
-    public int? Away { get; init; }
-}
+public record ScoreDetailResponse(
+    int? Home,
+    int? Away
+);

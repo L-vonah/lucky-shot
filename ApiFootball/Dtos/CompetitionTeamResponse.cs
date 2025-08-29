@@ -1,20 +1,16 @@
 ﻿namespace ApiFootball.Dtos;
 
-internal class CompetitionTeamResponse
-{
-    public List<TeamResponse> Teams { get; init; } = [];
-    public CompetitionBaseResponse Competition { get; init; } = null!;
-    public CompetitionSeasonBaseResponse Season { get; init; } = null!;
-}
+public record CompetitionTeamResponse(
+    List<TeamResponse> Teams,
+    CompetitionBaseResponse Competition,
+    CompetitionSeasonBaseResponse Season
+);
 
-internal class TeamBaseResponse
-{
-    public int Id { get; init; }
-}
+public record TeamBaseResponse(int Id);
 
-internal class TeamResponse : TeamBaseResponse
-{
-    public string Name { get; init; } = null!;
-    public string ShortName { get; init; } = null!;
-    public string Crest { get; init; } = null!;
-}
+public record TeamResponse(
+    int Id,
+    string Name,
+    string ShortName,
+    string Crest
+) : TeamBaseResponse(Id);

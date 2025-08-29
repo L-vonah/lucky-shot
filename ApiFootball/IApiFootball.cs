@@ -3,7 +3,7 @@ using Refit;
 
 namespace ApiFootball;
 
-internal interface IApiFootball
+public interface IApiFootball
 {
     [Get("/v4/competitions/{acronym}")]
     Task<CompetitionResponse> GetCompetition(string acronym);
