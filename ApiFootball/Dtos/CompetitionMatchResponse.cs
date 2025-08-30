@@ -2,7 +2,8 @@
 
 public record CompetitionMatchResponse(
     List<MatchResponse> Matches,
-    CompetitionBaseResponse Competition
+    CompetitionBaseResponse Competition,
+    CompetitionSeasonBaseResponse Season
 );
 
 public record MatchResponse(

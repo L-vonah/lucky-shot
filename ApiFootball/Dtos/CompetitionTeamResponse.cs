@@ -1,11 +1,5 @@
 ﻿namespace ApiFootball.Dtos;
 
-public record CompetitionTeamResponse(
-    List<TeamResponse> Teams,
-    CompetitionBaseResponse Competition,
-    CompetitionSeasonBaseResponse Season
-);
-
 public record TeamBaseResponse(int Id);
 
 public record TeamResponse(

@@ -11,4 +11,9 @@ public class SeasonRepository(LuckyShotContext context) : Repository<Season, int
     {
         return await _context.Seasons.AnyAsync(t => t.Id == id);
     }
+
+    public async Task<Season?> GetByExternalIdAsync(int externalId)
+    {
+        return await _context.Seasons.FirstOrDefaultAsync(t => t.ExternalId == externalId);
+    }
 }

@@ -2,18 +2,27 @@
 
 namespace LuckyShot.Domain.Models;
 
+public record CompetitionSummaryResult(
+    CompetitionInfoResult Competition,
+    CompetitionSeasonInfoResult Season,
+    CompetitionTeamInfoResult[] Teams
+);
+
 public record CompetitionInfoResult(
     int ExternalId,
     string Name,
     string Code,
-    string Logo,
-    int? CurrentSeasonId,
-    DateTime? CurrentSeasonStartDate,
-    DateTime? CurrentSeasonEndDate,
-    int? CurrentSeasonRound
+    string Logo
 );
 
-public record CompetitionTeamsInfoResult(
+public record CompetitionSeasonInfoResult(
+    int ExternalId,
+    DateTime? StartDate,
+    DateTime? EndDate,
+    int? CurrentRound
+);
+
+public record CompetitionTeamInfoResult(
     int ExternalId,
     string Name,
     string ShortName,

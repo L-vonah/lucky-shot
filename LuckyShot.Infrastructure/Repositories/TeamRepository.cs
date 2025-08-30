@@ -11,4 +11,6 @@ public class TeamRepository(LuckyShotContext context) : Repository<Team, int>(co
     {
         return await _context.Teams.AnyAsync(t => t.Id == id);
     }
+    
+    public IQueryable<Team> GetTeamsQuery() => _context.Teams.AsNoTracking();
 }

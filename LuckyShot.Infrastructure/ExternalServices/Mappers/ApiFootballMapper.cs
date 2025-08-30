@@ -6,24 +6,42 @@ namespace LuckyShot.Infrastructure.ExternalServices.Mappers;
 
 public static class ApiFootballMapper
 {
-    public static CompetitionInfoResult ToDomainCompetitionInfoResult(this CompetitionResponse response)
+    public static CompetitionSummaryResult ToDomainCompetitionSummaryResult(this CompetitionSummaryResponse summaryResponse)
     {
-        var currentSeason = response.CurrentSeason;
+        var competition = summaryResponse.Competition;
+        var currentSeason = summaryResponse.Season;
+        var teams = summaryResponse.Teams;
+        
+        return new CompetitionSummaryResult(
+            Competition: competition.ToDomainCompetitionInfoResult(),
+            Season: currentSeason.ToDomainCompetitionSeasonInfoResult(),
+            Teams: teams.Select(t => t.ToDomainCompetitionTeamsInfoResult()).ToArray()
+        );
+    }
+    
+    private static CompetitionInfoResult ToDomainCompetitionInfoResult(this CompetitionResponse response)
+    {
         return new CompetitionInfoResult(
             ExternalId: response.Id,
             Name: response.Name,
             Code: response.Code,
-            Logo: response.Emblem,
-            CurrentSeasonId: currentSeason?.Id,
-            CurrentSeasonStartDate: currentSeason?.StartDate,
-            CurrentSeasonEndDate: currentSeason?.EndDate,
-            CurrentSeasonRound: currentSeason?.CurrentMatchday
+            Logo: response.Emblem
         );
     }
     
-    public static CompetitionTeamsInfoResult ToDomainCompetitionTeamsInfoResult(this TeamResponse response)
+    private static CompetitionSeasonInfoResult ToDomainCompetitionSeasonInfoResult(this CompetitionSeasonResponse response)
     {
-        return new CompetitionTeamsInfoResult(
+        return new CompetitionSeasonInfoResult(
+            ExternalId: response.Id,
+            StartDate: response.StartDate,
+            EndDate: response.EndDate,
+            CurrentRound: response.CurrentMatchday
+        );
+    }
+    
+    private static CompetitionTeamInfoResult ToDomainCompetitionTeamsInfoResult(this TeamResponse response)
+    {
+        return new CompetitionTeamInfoResult(
             ExternalId: response.Id,
             Name: response.Name,
             ShortName: response.ShortName,
