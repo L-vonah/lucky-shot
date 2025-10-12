@@ -1,9 +1,11 @@
 namespace LuckyShot.Domain.Entities;
 
 public class Match(
+    int seasonId,
     DateTime date,
     MatchStatus status,
-    int matchRound,
+    MatchResult result,
+    int round,
     int homeTeamId,
     int awayTeamId,
     int externalId) : DatabaseEntity
@@ -11,14 +13,15 @@ public class Match(
     public int Id { get; set; }
     public DateTime Date { get; set; } = date;
     public MatchStatus Status { get; set; } = status;
-    public int MatchRound { get; set; } = matchRound;
+    public MatchResult Result { get; set; } = result;
+    public int Round { get; set; } = round;
     public int HomeTeamId { get; set; } = homeTeamId;
     public Team? HomeTeam { get; set; }
-    public int HomeTeamScore { get; set; }
+    public int? HomeTeamScore { get; set; }
     public int AwayTeamId { get; set; } = awayTeamId;
     public Team? AwayTeam { get; set; }
-    public int AwayTeamScore { get; set; }
-    public int SeasonId { get; set; }
+    public int? AwayTeamScore { get; set; }
+    public int SeasonId { get; set; } = seasonId;
     public Season? Season { get; set; }
     public int ExternalId { get; set; } = externalId;
 }
@@ -33,4 +36,12 @@ public enum MatchStatus
     Postponed,
     Suspended,
     Cancelled
+}
+
+public enum MatchResult
+{
+    NotPlayed,
+    HomeWin,
+    AwayWin,
+    Draw
 }

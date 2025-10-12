@@ -11,4 +11,6 @@ public class MatchRepository(LuckyShotContext context) : Repository<Match, int>(
     {
         return await _context.Matches.AnyAsync(t => t.Id == id);
     }
+    
+    public IQueryable<Match> GetMatchesQuery() => _context.Matches;
 }

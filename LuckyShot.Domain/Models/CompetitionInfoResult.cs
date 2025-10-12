@@ -25,20 +25,25 @@ public record CompetitionSeasonInfoResult(
 public record CompetitionTeamInfoResult(
     int ExternalId,
     string Name,
-    string ShortName,
     string Logo
 );
 
-public record CompetitionMatchesInfoResult(
+public record MatchesInfoResult(
     int ExternalId,
     DateTime MatchDate,
     DateTime LastUpdatedDate,
-    int Matchday,
+    int Round,
     MatchStatus Status,
+    MatchResult Result,
     int HomeTeamId,
     int AwayTeamId,
     int? HomeTeamFullTimeScore,
     int? AwayTeamFullTimeScore,
     int? HomeTeamHalfTimeScore,
     int? AwayTeamHalfTimeScore
+);
+
+public record CompetitionMatchesInfoResult(
+    int SeasonExternalId,
+    MatchesInfoResult[] Matches
 );

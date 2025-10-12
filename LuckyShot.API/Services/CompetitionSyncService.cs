@@ -1,6 +1,7 @@
 ﻿using LuckyShot.Domain.Entities;
 using LuckyShot.Domain.Models;
 using LuckyShot.Domain.Services;
+using LuckyShot.Infrastructure.Extensions;
 using LuckyShot.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ public class CompetitionSyncService(
     CompetitionRepository competitionRepository,
     SeasonRepository seasonRepository,
     TeamRepository teamRepository,
+    MatchRepository matchRepository,
     ICompetitionInfoProvider competitionInfoProvider
 ) : ICompetitionSyncService
 {
@@ -36,9 +38,23 @@ public class CompetitionSyncService(
         await SyncTeamsAsync(teamsInfo);
     }
 
-    public Task SyncCompetitionSeasonMatchesAsync(CompetitionCategory category, int year)
+     public async Task SyncCompetitionSeasonMatchesAsync(CompetitionCategory category, int year)
     {
-        throw new NotImplementedException();
+        var (seasonExternalId, matchesInfoResults)
+            = await competitionInfoProvider.FetchCompetitionMatchesInformation(category, year);
+
+        var season = await seasonRepository.GetByExternalIdAsync(seasonExternalId);
+        if (season == null) return;
+        
+        var lastUpdatedDate = season.MatchesLastUpdated;
+        var matchesToSync = matchesInfoResults
+            .Where(m => m.MatchDate > lastUpdatedDate.AddDays(-1))
+            .ToArray();
+        
+        await SyncMatchesAsync(matchesToSync, season.Id);
+        
+        season.MatchesLastUpdated = DateTime.UtcNow;
+        await seasonRepository.UpdateAsync(season);
     }
 
     private async Task<Competition> SyncCompetitionsAsync(CompetitionInfoResult competitionInfo)
@@ -69,6 +85,7 @@ public class CompetitionSyncService(
             seasonInfo.StartDate,
             seasonInfo.EndDate,
             seasonInfo.ExternalId,
+            DateTime.UtcNow,
             seasonInfo.CurrentRound
         ) { CompetitionId = competitionId };
 
@@ -82,12 +99,12 @@ public class CompetitionSyncService(
 
         var externalIds = teamsInfo.Select(t => t.ExternalId).ToHashSet();
         var existingTeams = await teamRepository.GetTeamsQuery()
-            .Where(t => externalIds.Contains(t.ExternalId))
+            .WithExternalIds(externalIds)
             .ToDictionaryAsync(t => t.ExternalId, t => t);
-        
-        List<Team> teamsToAdd = [];
-        List<Team> teamsToUpdate = [];
-        
+
+        var teamsToAdd = new List<Team>();
+        var teamsToUpdate = new List<Team>();
+
         foreach (var teamInfo in teamsInfo)
         {
             if (existingTeams.TryGetValue(teamInfo.ExternalId, out var existingTeam))
@@ -98,16 +115,70 @@ public class CompetitionSyncService(
                 existingTeam.Name = teamInfo.Name;
                 existingTeam.Logo = teamInfo.Logo;
                 teamsToUpdate.Add(existingTeam);
+                continue;
             }
-            else
-            {
-                var newTeam = new Team(teamInfo.Name, teamInfo.Logo, teamInfo.ExternalId);
-                teamsToAdd.Add(newTeam);
-            }
+            
+            var newTeam = new Team(teamInfo.Name, teamInfo.Logo, teamInfo.ExternalId);
+            teamsToAdd.Add(newTeam);
         }
         
         if (teamsToAdd.Count > 0) await teamRepository.AddRangeAsync(teamsToAdd);
         if (teamsToUpdate.Count > 0) await teamRepository.UpdateRangeAsync(teamsToUpdate);
+    }
+    
+    private async Task SyncMatchesAsync(MatchesInfoResult[] matchesInfo, int seasonId)
+    {
+        if (matchesInfo.Length == 0) return;
+        
+        var matchExternalIds = matchesInfo.Select(m => m.ExternalId).ToHashSet();
+        var matches = await matchRepository.GetMatchesQuery()
+            .FromSeason(seasonId).WithExternalIds(matchExternalIds)
+            .ToDictionaryAsync(m => m.ExternalId, m => m);
+        
+        var matchesToAdd = new List<Match>();
+        var matchesToUpdate = new List<Match>();
+        
+        foreach (var matchInfo in matchesInfo)
+        {
+            if (matches.TryGetValue(matchInfo.ExternalId, out var existingMatch))
+            {
+                var shouldUpdate = existingMatch.Date != matchInfo.MatchDate ||
+                                   existingMatch.Status != matchInfo.Status ||
+                                   existingMatch.Result != matchInfo.Result ||
+                                   existingMatch.HomeTeamScore != matchInfo.HomeTeamFullTimeScore ||
+                                   existingMatch.AwayTeamScore != matchInfo.AwayTeamFullTimeScore;
+                if (!shouldUpdate) continue;
+                
+                existingMatch.Date = matchInfo.MatchDate;
+                existingMatch.Status = matchInfo.Status;
+                existingMatch.Result = matchInfo.Result;
+                existingMatch.HomeTeamScore = matchInfo.HomeTeamFullTimeScore;
+                existingMatch.AwayTeamScore = matchInfo.AwayTeamFullTimeScore;
+                
+                matchesToUpdate.Add(existingMatch);
+                continue;
+            }
+            
+            var newMatch = new Match(
+                seasonId,
+                matchInfo.MatchDate,
+                matchInfo.Status,
+                matchInfo.Result,
+                matchInfo.Round,
+                matchInfo.HomeTeamId,
+                matchInfo.AwayTeamId,
+                matchInfo.ExternalId
+            )
+            {
+                HomeTeamScore = matchInfo.HomeTeamFullTimeScore,
+                AwayTeamScore = matchInfo.AwayTeamFullTimeScore
+            };
+            
+            matchesToAdd.Add(newMatch);
+        }
+        
+        if (matchesToAdd.Count > 0) await matchRepository.AddRangeAsync(matchesToAdd);
+        if (matchesToUpdate.Count > 0) await matchRepository.UpdateRangeAsync(matchesToUpdate);
     }
 
     private async Task<Season> UpdateSeasonIfNeeded(Season existingSeason, CompetitionSeasonInfoResult info)

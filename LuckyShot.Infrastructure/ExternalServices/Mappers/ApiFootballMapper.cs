@@ -10,12 +10,13 @@ public static class ApiFootballMapper
     {
         var competition = summaryResponse.Competition;
         var currentSeason = summaryResponse.Season;
-        var teams = summaryResponse.Teams;
+        var teams = summaryResponse.Teams.Select(t 
+            => t.ToDomainCompetitionTeamsInfoResult()).ToArray();
         
         return new CompetitionSummaryResult(
             Competition: competition.ToDomainCompetitionInfoResult(),
             Season: currentSeason.ToDomainCompetitionSeasonInfoResult(),
-            Teams: teams.Select(t => t.ToDomainCompetitionTeamsInfoResult()).ToArray()
+            Teams: teams
         );
     }
     
@@ -44,22 +45,33 @@ public static class ApiFootballMapper
         return new CompetitionTeamInfoResult(
             ExternalId: response.Id,
             Name: response.Name,
-            ShortName: response.ShortName,
             Logo: response.Crest
         );
     }
     
-    public static CompetitionMatchesInfoResult ToDomainCompetitionMatchesInfoResult(this MatchResponse response)
+    public static CompetitionMatchesInfoResult ToDomainCompetitionMatchesInfoResult(this CompetitionMatchResponse response)
+    {
+        var seasonId = response.Matches.First().Season.Id;
+        var matches = response.Matches.Select(m 
+            => m.ToDomainCompetitionMatchesInfoResult()).ToArray();
+        return new CompetitionMatchesInfoResult(
+            SeasonExternalId: seasonId,
+            Matches: matches
+        );
+    }
+    
+    private static MatchesInfoResult ToDomainCompetitionMatchesInfoResult(this MatchResponse response)
     {
         var homeTeam = response.HomeTeam;
         var awayTeam = response.AwayTeam;
         var score = response.Score;
-        return new CompetitionMatchesInfoResult(
+        return new MatchesInfoResult(
             ExternalId: response.Id,
             MatchDate: response.UtcDate,
             LastUpdatedDate: response.LastUpdated,
-            Matchday: response.Matchday,
+            Round: response.Matchday,
             Status: response.Status.ToDomainMatchStatus(),
+            Result: score.Winner.ToDomainMatchResult(),
             HomeTeamId: homeTeam.Id,
             AwayTeamId: awayTeam.Id,
             HomeTeamFullTimeScore: score.FullTime.Home,
@@ -82,12 +94,12 @@ public static class ApiFootballMapper
         CompetitionCategory.SerieA => "SA",
         CompetitionCategory.PremierLeague => "PL",
         _ => throw new ArgumentOutOfRangeException(
-            nameof(category), $"Not expected competition category value: {category}"),
+            nameof(category), $"Not expected competition category value: {category}")
     };
     
     private static MatchStatus ToDomainMatchStatus(this string status) => status.ToLower() switch
     {
-        "scheduled" => MatchStatus.Scheduled,
+        "scheduled" or "timed" => MatchStatus.Scheduled,
         "live" => MatchStatus.Live,
         "in_play" => MatchStatus.InPlay,
         "paused" => MatchStatus.Paused,
@@ -96,5 +108,14 @@ public static class ApiFootballMapper
         "suspended" => MatchStatus.Suspended,
         "cancelled" => MatchStatus.Cancelled,
         _ => throw new ArgumentOutOfRangeException(nameof(status), $"Not expected match status value: {status}")
+    };
+    
+    private static MatchResult ToDomainMatchResult(this string? result) => result?.ToLower() switch
+    {
+        "home_team" => MatchResult.HomeWin,
+        "away_team" => MatchResult.AwayWin,
+        "draw" => MatchResult.Draw,
+        "null" or null => MatchResult.NotPlayed,
+        _ => throw new ArgumentOutOfRangeException(nameof(result), $"Not expected match result value: {result}")
     };
 }

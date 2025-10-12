@@ -1,5 +1,4 @@
 ﻿using ApiFootball;
-using ApiFootball.Dtos;
 using LuckyShot.Domain.Entities;
 using LuckyShot.Domain.Models;
 using LuckyShot.Domain.Services;
@@ -18,10 +17,10 @@ public class ApiFootballService(
         return response.ToDomainCompetitionSummaryResult();
     }
 
-    public async Task<IEnumerable<CompetitionMatchesInfoResult>> FetchCompetitionMatchesInformation(CompetitionCategory category, int year)
+    public async Task<CompetitionMatchesInfoResult> FetchCompetitionMatchesInformation(CompetitionCategory category, int year)
     {
         var acronym = category.ToApiFootballCompetitionAcronym();
         var response = await apiFootball.GetCompetitionMatches(acronym, year);
-        return response.Matches.Select(m => m.ToDomainCompetitionMatchesInfoResult());
+        return response.ToDomainCompetitionMatchesInfoResult();
     }
 }
