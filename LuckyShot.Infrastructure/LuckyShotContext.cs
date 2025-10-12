@@ -26,6 +26,8 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
         modelBuilder.Entity<Match>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Status).HasConversion<string>();
+            entity.Property(e => e.Result).HasConversion<string>();
             entity.HasOne(e => e.HomeTeam)
                 .WithMany()
                 .HasForeignKey(e => e.HomeTeamId);
@@ -36,6 +38,7 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
                 .WithMany()
                 .HasForeignKey(e => e.SeasonId)
                 .OnDelete(DeleteBehavior.Cascade);
+            entity.HasIndex(e => e.ExternalId).IsUnique();
         });
         modelBuilder.Entity<Season>(entity =>
         {
