@@ -1,4 +1,4 @@
-﻿using LuckyShot.Domain.Entities;
+using LuckyShot.Domain.Entities;
 using LuckyShot.Domain.Models;
 using LuckyShot.Domain.Services;
 using LuckyShot.Infrastructure.Extensions;
@@ -44,17 +44,28 @@ public class CompetitionSyncService(
             = await competitionInfoProvider.FetchCompetitionMatchesInformation(category, year);
 
         var season = await seasonRepository.GetByExternalIdAsync(seasonExternalId);
-        if (season == null) return;
-        
-        var lastUpdatedDate = season.MatchesLastUpdated;
-        var matchesToSync = matchesInfoResults
-            .Where(m => m.MatchDate > lastUpdatedDate.AddDays(-1))
-            .ToArray();
-        
+        if (season is null) return;
+
+        MatchesInfoResult[] matchesToSync;
+        if (season.MatchesLastUpdated is null)
+        {
+            matchesToSync = matchesInfoResults;
+        }
+        else
+        {
+            var lastUpdatedDate = season.MatchesLastUpdated.Value;
+            matchesToSync = matchesInfoResults
+                .Where(m => m.LastUpdatedDate > lastUpdatedDate)
+                .ToArray();
+        }
+
         await SyncMatchesAsync(matchesToSync, season.Id);
-        
-        season.MatchesLastUpdated = DateTime.UtcNow;
-        await seasonRepository.UpdateAsync(season);
+
+        if (matchesInfoResults.Length > 0)
+        {
+            season.MatchesLastUpdated = matchesInfoResults.Max(m => m.LastUpdatedDate);
+            await seasonRepository.UpdateAsync(season);
+        }
     }
 
     private async Task<Competition> SyncCompetitionsAsync(CompetitionInfoResult competitionInfo)
@@ -85,7 +96,7 @@ public class CompetitionSyncService(
             seasonInfo.StartDate,
             seasonInfo.EndDate,
             seasonInfo.ExternalId,
-            DateTime.UtcNow,
+            null,
             seasonInfo.CurrentRound
         ) { CompetitionId = competitionId };
 
