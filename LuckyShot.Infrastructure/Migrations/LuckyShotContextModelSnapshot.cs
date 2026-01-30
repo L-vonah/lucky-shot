@@ -57,7 +57,7 @@ namespace LuckyShot.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AwayTeamId")
+                    b.Property<int?>("AwayTeamId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("AwayTeamScore")
@@ -69,7 +69,7 @@ namespace LuckyShot.Infrastructure.Migrations
                     b.Property<int>("ExternalId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("HomeTeamId")
+                    b.Property<int?>("HomeTeamId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("HomeTeamScore")
@@ -177,14 +177,12 @@ namespace LuckyShot.Infrastructure.Migrations
                     b.HasOne("LuckyShot.Domain.Entities.Team", "AwayTeam")
                         .WithMany()
                         .HasForeignKey("AwayTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("LuckyShot.Domain.Entities.Team", "HomeTeam")
                         .WithMany()
                         .HasForeignKey("HomeTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("LuckyShot.Domain.Entities.Season", "Season")
                         .WithMany("Matches")

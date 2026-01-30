@@ -76,9 +76,9 @@ namespace LuckyShot.Infrastructure.Migrations
                     Status = table.Column<string>(type: "TEXT", nullable: false),
                     Result = table.Column<string>(type: "TEXT", nullable: false),
                     Round = table.Column<int>(type: "INTEGER", nullable: false),
-                    HomeTeamId = table.Column<int>(type: "INTEGER", nullable: false),
+                    HomeTeamId = table.Column<int>(type: "INTEGER", nullable: true),
                     HomeTeamScore = table.Column<int>(type: "INTEGER", nullable: true),
-                    AwayTeamId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AwayTeamId = table.Column<int>(type: "INTEGER", nullable: true),
                     AwayTeamScore = table.Column<int>(type: "INTEGER", nullable: true),
                     SeasonId = table.Column<int>(type: "INTEGER", nullable: false),
                     ExternalId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -97,13 +97,13 @@ namespace LuckyShot.Infrastructure.Migrations
                         column: x => x.AwayTeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Matches_Teams_HomeTeamId",
                         column: x => x.HomeTeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
