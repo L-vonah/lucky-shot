@@ -6,8 +6,8 @@ public class Match(
     MatchStatus status,
     MatchResult result,
     int round,
-    int homeTeamId,
-    int awayTeamId,
+    int? homeTeamId,
+    int? awayTeamId,
     int externalId) : DatabaseEntity
 {
     public int Id { get; set; }
@@ -15,10 +15,10 @@ public class Match(
     public MatchStatus Status { get; set; } = status;
     public MatchResult Result { get; set; } = result;
     public int Round { get; set; } = round;
-    public int HomeTeamId { get; set; } = homeTeamId;
+    public int? HomeTeamId { get; set; } = homeTeamId;
     public Team? HomeTeam { get; set; }
     public int? HomeTeamScore { get; set; }
-    public int AwayTeamId { get; set; } = awayTeamId;
+    public int? AwayTeamId { get; set; } = awayTeamId;
     public Team? AwayTeam { get; set; }
     public int? AwayTeamScore { get; set; }
     public int SeasonId { get; set; } = seasonId;

@@ -1,4 +1,4 @@
-﻿namespace ApiFootball.Dtos;
+namespace ApiFootball.Dtos;
 
 public record CompetitionMatchResponse(
     List<MatchResponse> Matches
@@ -8,7 +8,7 @@ public record MatchResponse(
     int Id,
     DateTime UtcDate,
     DateTime LastUpdated,
-    int Matchday,
+    int? Matchday,
     string Status,
     TeamBaseResponse HomeTeam,
     TeamBaseResponse AwayTeam,

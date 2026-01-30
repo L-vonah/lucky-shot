@@ -1,4 +1,4 @@
-﻿using ApiFootball.Dtos;
+using ApiFootball.Dtos;
 using LuckyShot.Domain.Entities;
 using LuckyShot.Domain.Models;
 
@@ -43,7 +43,7 @@ public static class ApiFootballMapper
     private static CompetitionTeamInfoResult ToDomainCompetitionTeamsInfoResult(this TeamResponse response)
     {
         return new CompetitionTeamInfoResult(
-            ExternalId: response.Id,
+            ExternalId: response.Id!.Value,
             Name: response.Name,
             Logo: response.Crest
         );
@@ -52,8 +52,10 @@ public static class ApiFootballMapper
     public static CompetitionMatchesInfoResult ToDomainCompetitionMatchesInfoResult(this CompetitionMatchResponse response)
     {
         var seasonId = response.Matches.First().Season.Id;
-        var matches = response.Matches.Select(m 
-            => m.ToDomainCompetitionMatchesInfoResult()).ToArray();
+        var matches = response.Matches
+            .Where(m => (m.HomeTeam.Id != null || m.AwayTeam.Id != null) && m.Matchday.HasValue)
+            .Select(m => m.ToDomainCompetitionMatchesInfoResult())
+            .ToArray();
         return new CompetitionMatchesInfoResult(
             SeasonExternalId: seasonId,
             Matches: matches
@@ -62,18 +64,16 @@ public static class ApiFootballMapper
     
     private static MatchesInfoResult ToDomainCompetitionMatchesInfoResult(this MatchResponse response)
     {
-        var homeTeam = response.HomeTeam;
-        var awayTeam = response.AwayTeam;
         var score = response.Score;
         return new MatchesInfoResult(
             ExternalId: response.Id,
             MatchDate: response.UtcDate,
             LastUpdatedDate: response.LastUpdated,
-            Round: response.Matchday,
+            Round: response.Matchday!.Value,
             Status: response.Status.ToDomainMatchStatus(),
             Result: score.Winner.ToDomainMatchResult(),
-            HomeTeamId: homeTeam.Id,
-            AwayTeamId: awayTeam.Id,
+            HomeTeamId: response.HomeTeam.Id,
+            AwayTeamId: response.AwayTeam.Id,
             HomeTeamFullTimeScore: score.FullTime.Home,
             AwayTeamFullTimeScore: score.FullTime.Away,
             HomeTeamHalfTimeScore: score.HalfTime.Home,

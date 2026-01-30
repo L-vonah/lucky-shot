@@ -30,10 +30,14 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
             entity.Property(e => e.Result).HasConversion<string>();
             entity.HasOne(e => e.HomeTeam)
                 .WithMany()
-                .HasForeignKey(e => e.HomeTeamId);
+                .HasForeignKey(e => e.HomeTeamId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
             entity.HasOne(e => e.AwayTeam)
                 .WithMany()
-                .HasForeignKey(e => e.AwayTeamId);
+                .HasForeignKey(e => e.AwayTeamId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
             entity.HasOne(e => e.Season)
                 .WithMany(s => s.Matches)
                 .HasForeignKey(e => e.SeasonId)

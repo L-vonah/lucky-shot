@@ -1,8 +1,8 @@
-﻿namespace ApiFootball.Dtos;
+namespace ApiFootball.Dtos;
 
-public record TeamBaseResponse(int Id);
+public record TeamBaseResponse(int? Id);
 public record TeamResponse(
-    int Id,
+    int? Id,
     string Name,
     string Crest
 ) : TeamBaseResponse(Id);

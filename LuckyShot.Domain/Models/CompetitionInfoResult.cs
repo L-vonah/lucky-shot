@@ -1,4 +1,4 @@
-﻿using LuckyShot.Domain.Entities;
+using LuckyShot.Domain.Entities;
 
 namespace LuckyShot.Domain.Models;
 
@@ -35,8 +35,8 @@ public record MatchesInfoResult(
     int Round,
     MatchStatus Status,
     MatchResult Result,
-    int HomeTeamId,
-    int AwayTeamId,
+    int? HomeTeamId,
+    int? AwayTeamId,
     int? HomeTeamFullTimeScore,
     int? AwayTeamFullTimeScore,
     int? HomeTeamHalfTimeScore,

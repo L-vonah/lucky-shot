@@ -171,14 +171,21 @@ public class CompetitionSyncService(
                 continue;
             }
             
+            var homeTeamId = matchInfo.HomeTeamId.HasValue 
+                ? teamMap.GetValueOrDefault(matchInfo.HomeTeamId.Value) 
+                : (int?)null;
+            var awayTeamId = matchInfo.AwayTeamId.HasValue 
+                ? teamMap.GetValueOrDefault(matchInfo.AwayTeamId.Value) 
+                : (int?)null;
+            
             var newMatch = new Match(
                 seasonId,
                 matchInfo.MatchDate,
                 matchInfo.Status,
                 matchInfo.Result,
                 matchInfo.Round,
-                teamMap[matchInfo.HomeTeamId],
-                teamMap[matchInfo.AwayTeamId],
+                homeTeamId,
+                awayTeamId,
                 matchInfo.ExternalId
             )
             {
@@ -197,7 +204,12 @@ public class CompetitionSyncService(
     {
         var teamExternalIds = matchesInfo
             .SelectMany(m => new[] { m.HomeTeamId, m.AwayTeamId })
+            .Where(id => id.HasValue)
+            .Select(id => id!.Value)
             .ToHashSet();
+        
+        if (teamExternalIds.Count == 0) return [];
+        
         var teams = await teamRepository.GetByExternalIdsAsync(teamExternalIds);
         var teamMap = teams.ToDictionary(t => t.ExternalId, t => t.Id);
         var missingTeamIds = teamExternalIds.Except(teamMap.Keys).ToArray();
