@@ -1,4 +1,4 @@
-﻿using LuckyShot.Domain.Entities;
+using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure;
@@ -35,7 +35,7 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
                 .WithMany()
                 .HasForeignKey(e => e.AwayTeamId);
             entity.HasOne(e => e.Season)
-                .WithMany()
+                .WithMany(s => s.Matches)
                 .HasForeignKey(e => e.SeasonId)
                 .OnDelete(DeleteBehavior.Cascade);
             entity.HasIndex(e => e.ExternalId).IsUnique();

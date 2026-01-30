@@ -63,7 +63,7 @@ public class CompetitionSyncService(
 
         if (matchesInfoResults.Length > 0)
         {
-            season.MatchesLastUpdated = matchesInfoResults.Max(m => m.LastUpdatedDate);
+            season.MatchesLastUpdated = DateTime.UtcNow;
             await seasonRepository.UpdateAsync(season);
         }
     }
@@ -140,7 +140,8 @@ public class CompetitionSyncService(
     private async Task SyncMatchesAsync(MatchesInfoResult[] matchesInfo, int seasonId)
     {
         if (matchesInfo.Length == 0) return;
-        
+        var teamMap = await BuildTeamIdMapAsync(matchesInfo);
+
         var matchExternalIds = matchesInfo.Select(m => m.ExternalId).ToHashSet();
         var matches = await matchRepository.GetMatchesQuery()
             .FromSeason(seasonId).WithExternalIds(matchExternalIds)
@@ -176,8 +177,8 @@ public class CompetitionSyncService(
                 matchInfo.Status,
                 matchInfo.Result,
                 matchInfo.Round,
-                matchInfo.HomeTeamId,
-                matchInfo.AwayTeamId,
+                teamMap[matchInfo.HomeTeamId],
+                teamMap[matchInfo.AwayTeamId],
                 matchInfo.ExternalId
             )
             {
@@ -190,6 +191,23 @@ public class CompetitionSyncService(
         
         if (matchesToAdd.Count > 0) await matchRepository.AddRangeAsync(matchesToAdd);
         if (matchesToUpdate.Count > 0) await matchRepository.UpdateRangeAsync(matchesToUpdate);
+    }
+
+    private async Task<Dictionary<int, int>> BuildTeamIdMapAsync(IEnumerable<MatchesInfoResult> matchesInfo)
+    {
+        var teamExternalIds = matchesInfo
+            .SelectMany(m => new[] { m.HomeTeamId, m.AwayTeamId })
+            .ToHashSet();
+        var teams = await teamRepository.GetByExternalIdsAsync(teamExternalIds);
+        var teamMap = teams.ToDictionary(t => t.ExternalId, t => t.Id);
+        var missingTeamIds = teamExternalIds.Except(teamMap.Keys).ToArray();
+        if (missingTeamIds.Length > 0)
+        {
+            throw new InvalidOperationException(
+                $"Times ausentes para os ExternalIds: {string.Join(", ", missingTeamIds)}.");
+        }
+
+        return teamMap;
     }
 
     private async Task<Season> UpdateSeasonIfNeeded(Season existingSeason, CompetitionSeasonInfoResult info)
