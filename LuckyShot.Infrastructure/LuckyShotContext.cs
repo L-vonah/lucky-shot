@@ -12,6 +12,7 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("master");
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<Competition>(entity =>
