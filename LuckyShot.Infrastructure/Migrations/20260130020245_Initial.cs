@@ -48,12 +48,12 @@ namespace LuckyShot.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ExternalId = table.Column<string>(type: "TEXT", nullable: false),
-                    CurrentRound = table.Column<int>(type: "INTEGER", nullable: false),
-                    CompetitionId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ExternalId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MatchesLastUpdated = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CurrentRound = table.Column<int>(type: "INTEGER", nullable: true),
+                    CompetitionId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,15 +73,15 @@ namespace LuckyShot.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    MatchRound = table.Column<int>(type: "INTEGER", nullable: false),
-                    HomeTeamId = table.Column<int>(type: "INTEGER", nullable: false),
-                    HomeTeamScore = table.Column<int>(type: "INTEGER", nullable: false),
-                    AwayTeamId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AwayTeamScore = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false),
+                    Result = table.Column<string>(type: "TEXT", nullable: false),
+                    Round = table.Column<int>(type: "INTEGER", nullable: false),
+                    HomeTeamId = table.Column<int>(type: "INTEGER", nullable: true),
+                    HomeTeamScore = table.Column<int>(type: "INTEGER", nullable: true),
+                    AwayTeamId = table.Column<int>(type: "INTEGER", nullable: true),
+                    AwayTeamScore = table.Column<int>(type: "INTEGER", nullable: true),
                     SeasonId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ExternalId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SeasonId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    ExternalId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,22 +93,17 @@ namespace LuckyShot.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Matches_Seasons_SeasonId1",
-                        column: x => x.SeasonId1,
-                        principalTable: "Seasons",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Matches_Teams_AwayTeamId",
                         column: x => x.AwayTeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Matches_Teams_HomeTeamId",
                         column: x => x.HomeTeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
@@ -128,6 +123,12 @@ namespace LuckyShot.Infrastructure.Migrations
                 column: "AwayTeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Matches_ExternalId",
+                table: "Matches",
+                column: "ExternalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Matches_HomeTeamId",
                 table: "Matches",
                 column: "HomeTeamId");
@@ -136,11 +137,6 @@ namespace LuckyShot.Infrastructure.Migrations
                 name: "IX_Matches_SeasonId",
                 table: "Matches",
                 column: "SeasonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Matches_SeasonId1",
-                table: "Matches",
-                column: "SeasonId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seasons_CompetitionId",

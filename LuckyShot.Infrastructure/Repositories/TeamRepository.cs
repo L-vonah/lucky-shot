@@ -1,4 +1,4 @@
-﻿using LuckyShot.Domain.Entities;
+using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure.Repositories;
@@ -11,4 +11,16 @@ public class TeamRepository(LuckyShotContext context) : Repository<Team, int>(co
     {
         return await _context.Teams.AnyAsync(t => t.Id == id);
     }
+    
+    public async Task<List<Team>> GetByExternalIdsAsync(IEnumerable<int> externalIds)
+    {
+        var externalIdList = externalIds.Distinct().ToArray();
+        if (externalIdList.Length == 0) return [];
+
+        return await _context.Teams
+            .Where(t => externalIdList.Contains(t.ExternalId))
+            .ToListAsync();
+    }
+
+    public IQueryable<Team> GetTeamsQuery() => _context.Teams;
 }

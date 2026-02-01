@@ -23,6 +23,19 @@ public abstract class Repository<T, TKey>(LuckyShotContext context) : IRepositor
             throw new RepositoryException("An unexpected error occurred while adding the entity.", e);
         }
     }
+    
+    public virtual async Task AddRangeAsync(IEnumerable<T> entities)
+    {
+        try
+        {
+            DbSet.AddRange(entities);
+            await context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            throw new RepositoryException("An unexpected error occurred while adding the entities.", e);
+        }
+    }
 
     public virtual async Task UpdateAsync(T entity)
     {
@@ -38,6 +51,23 @@ public abstract class Repository<T, TKey>(LuckyShotContext context) : IRepositor
         catch (Exception e)
         {
             throw new RepositoryException("An unexpected error occurred while updating the entity.", e);
+        }
+    }
+    
+    public virtual async Task UpdateRangeAsync(IEnumerable<T> entities)
+    {
+        try
+        {
+            DbSet.UpdateRange(entities);
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException e)
+        {
+            throw new RepositoryConcurrencyException("Concurrency conflict occurred while updating the entities.", e);
+        }
+        catch (Exception e)
+        {
+            throw new RepositoryException("An unexpected error occurred while updating the entities.", e);
         }
     }
 

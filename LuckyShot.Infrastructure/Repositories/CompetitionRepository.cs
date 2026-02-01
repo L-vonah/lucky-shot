@@ -11,4 +11,11 @@ public class CompetitionRepository(LuckyShotContext context) : Repository<Compet
     {
         return await _context.Competitions.AnyAsync(t => t.Id == id);
     }
+    
+    public async Task<Competition?> GetByExternalIdAsync(int externalId)
+    {
+        return await _context.Competitions
+            .Include(c => c.CurrentSeason)
+            .FirstOrDefaultAsync(c => c.ExternalId == externalId);
+    }
 }

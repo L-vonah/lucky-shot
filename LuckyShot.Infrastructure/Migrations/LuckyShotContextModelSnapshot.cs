@@ -57,10 +57,10 @@ namespace LuckyShot.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AwayTeamId")
+                    b.Property<int?>("AwayTeamId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AwayTeamScore")
+                    b.Property<int?>("AwayTeamScore")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
@@ -69,33 +69,36 @@ namespace LuckyShot.Infrastructure.Migrations
                     b.Property<int>("ExternalId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("HomeTeamId")
+                    b.Property<int?>("HomeTeamId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("HomeTeamScore")
+                    b.Property<int?>("HomeTeamScore")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MatchRound")
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Round")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SeasonId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("SeasonId1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AwayTeamId");
 
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
                     b.HasIndex("HomeTeamId");
 
                     b.HasIndex("SeasonId");
-
-                    b.HasIndex("SeasonId1");
 
                     b.ToTable("Matches");
                 });
@@ -106,24 +109,22 @@ namespace LuckyShot.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("CompetitionId")
+                    b.Property<Guid?>("CompetitionId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CurrentRound")
+                    b.Property<int?>("CurrentRound")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ExternalId")
-                        .IsRequired()
+                    b.Property<int>("ExternalId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("MatchesLastUpdated")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -176,24 +177,18 @@ namespace LuckyShot.Infrastructure.Migrations
                     b.HasOne("LuckyShot.Domain.Entities.Team", "AwayTeam")
                         .WithMany()
                         .HasForeignKey("AwayTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("LuckyShot.Domain.Entities.Team", "HomeTeam")
                         .WithMany()
                         .HasForeignKey("HomeTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("LuckyShot.Domain.Entities.Season", "Season")
-                        .WithMany()
+                        .WithMany("Matches")
                         .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("LuckyShot.Domain.Entities.Season", null)
-                        .WithMany("Matches")
-                        .HasForeignKey("SeasonId1");
 
                     b.Navigation("AwayTeam");
 
@@ -207,8 +202,7 @@ namespace LuckyShot.Infrastructure.Migrations
                     b.HasOne("LuckyShot.Domain.Entities.Competition", "Competition")
                         .WithMany()
                         .HasForeignKey("CompetitionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Competition");
                 });

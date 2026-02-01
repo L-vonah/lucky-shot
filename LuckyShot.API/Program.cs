@@ -1,5 +1,9 @@
 using ApiFootball.Extensions;
+using LuckyShot.API.Services;
+using LuckyShot.Domain.Services;
 using LuckyShot.Infrastructure;
+using LuckyShot.Infrastructure.ExternalServices;
+using LuckyShot.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -36,6 +40,12 @@ builder.Services.AddDbContext<LuckyShotContext>(options =>
     options.UseSqlite(connectionString!);
 });
 builder.Services.AddApiFootballServices(builder.Configuration);
+builder.Services.AddScoped<CompetitionRepository>();
+builder.Services.AddScoped<MatchRepository>();
+builder.Services.AddScoped<SeasonRepository>();
+builder.Services.AddScoped<TeamRepository>();
+builder.Services.AddScoped<ICompetitionInfoProvider, ApiFootballService>();
+builder.Services.AddScoped<ICompetitionSyncService, CompetitionSyncService>();
 
 var app = builder.Build();
 

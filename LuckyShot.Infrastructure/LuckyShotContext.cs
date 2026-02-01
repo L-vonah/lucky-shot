@@ -1,4 +1,4 @@
-﻿using LuckyShot.Domain.Entities;
+using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure;
@@ -26,16 +26,23 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
         modelBuilder.Entity<Match>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Status).HasConversion<string>();
+            entity.Property(e => e.Result).HasConversion<string>();
             entity.HasOne(e => e.HomeTeam)
                 .WithMany()
-                .HasForeignKey(e => e.HomeTeamId);
+                .HasForeignKey(e => e.HomeTeamId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
             entity.HasOne(e => e.AwayTeam)
                 .WithMany()
-                .HasForeignKey(e => e.AwayTeamId);
+                .HasForeignKey(e => e.AwayTeamId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
             entity.HasOne(e => e.Season)
-                .WithMany()
+                .WithMany(s => s.Matches)
                 .HasForeignKey(e => e.SeasonId)
                 .OnDelete(DeleteBehavior.Cascade);
+            entity.HasIndex(e => e.ExternalId).IsUnique();
         });
         modelBuilder.Entity<Season>(entity =>
         {
