@@ -171,11 +171,11 @@ public class CompetitionSyncService(
                 continue;
             }
             
-            var homeTeamId = matchInfo.HomeTeamId.HasValue 
-                ? teamMap.GetValueOrDefault(matchInfo.HomeTeamId.Value) 
+            var homeTeamId = matchInfo.HomeTeamExternalId.HasValue 
+                ? teamMap.GetValueOrDefault(matchInfo.HomeTeamExternalId.Value) 
                 : (int?)null;
-            var awayTeamId = matchInfo.AwayTeamId.HasValue 
-                ? teamMap.GetValueOrDefault(matchInfo.AwayTeamId.Value) 
+            var awayTeamId = matchInfo.AwayTeamExternalId.HasValue 
+                ? teamMap.GetValueOrDefault(matchInfo.AwayTeamExternalId.Value) 
                 : (int?)null;
             
             var newMatch = new Match(
@@ -203,7 +203,7 @@ public class CompetitionSyncService(
     private async Task<Dictionary<int, int>> BuildTeamIdMapAsync(IEnumerable<MatchesInfoResult> matchesInfo)
     {
         var teamExternalIds = matchesInfo
-            .SelectMany(m => new[] { m.HomeTeamId, m.AwayTeamId })
+            .SelectMany(m => new[] { m.HomeTeamExternalId, m.AwayTeamExternalId })
             .Where(id => id.HasValue)
             .Select(id => id!.Value)
             .ToHashSet();
