@@ -5,6 +5,8 @@ namespace LuckyShot.Infrastructure;
 
 public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbContext(options)
 {
+    public const string DatabaseSchema = "master";
+    
     public DbSet<Competition> Competitions { get; set; }
     public DbSet<Match> Matches { get; set; }
     public DbSet<Season> Seasons { get; set; }
@@ -12,7 +14,7 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("master");
+        modelBuilder.HasDefaultSchema(DatabaseSchema);
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<Competition>(entity =>

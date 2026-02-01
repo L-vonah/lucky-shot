@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LuckyShot.Infrastructure.Migrations
 {
     [DbContext(typeof(LuckyShotContext))]
-    [Migration("20260201234545_Initial")]
+    [Migration("20260201235330_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
