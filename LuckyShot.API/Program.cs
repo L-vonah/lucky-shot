@@ -35,11 +35,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add services to the container.
-builder.Services.AddDbContext<LuckyShotContext>(options =>
+builder.Services.AddDbContext<CompetitionDataContext>(options =>
 {
     options.UseNpgsql(connectionString!, b =>
     {
-        b.MigrationsHistoryTable("__EFMigrationsHistory", LuckyShotContext.DatabaseSchema);
+        b.MigrationsHistoryTable("__EFMigrationsHistory", CompetitionDataContext.DatabaseSchema);
     });
 });
 builder.Services.AddApiFootballServices(builder.Configuration);

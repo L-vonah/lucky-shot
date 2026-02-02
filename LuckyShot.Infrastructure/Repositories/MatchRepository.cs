@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure.Repositories;
 
-public class MatchRepository(LuckyShotContext context) : Repository<Match, int>(context)
+public class MatchRepository(CompetitionDataContext context) : Repository<Match, int>(context)
 {
-    private readonly LuckyShotContext _context = context;
+    private readonly CompetitionDataContext _context = context;
 
     public override async Task<bool> ExistsAsync(int id)
     {

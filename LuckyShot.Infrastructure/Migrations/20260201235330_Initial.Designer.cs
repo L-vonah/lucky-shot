@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LuckyShot.Infrastructure.Migrations
 {
-    [DbContext(typeof(LuckyShotContext))]
+    [DbContext(typeof(CompetitionDataContext))]
     [Migration("20260201235330_Initial")]
     partial class Initial
     {

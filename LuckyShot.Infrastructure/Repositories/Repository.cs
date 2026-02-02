@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure.Repositories;
 
-public abstract class Repository<T, TKey>(LuckyShotContext context) : IRepository<T, TKey> where T : DatabaseEntity
+public abstract class Repository<T, TKey>(CompetitionDataContext context) : IRepository<T, TKey> where T : DatabaseEntity
 {
     private DbSet<T> DbSet => context.Set<T>();
 

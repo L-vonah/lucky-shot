@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LuckyShot.Infrastructure.Migrations
 {
-    [DbContext(typeof(LuckyShotContext))]
+    [DbContext(typeof(CompetitionDataContext))]
     partial class LuckyShotContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

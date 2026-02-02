@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure;
 
-public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbContext(options)
+public class CompetitionDataContext(DbContextOptions<CompetitionDataContext> options) : DbContext(options)
 {
     public const string DatabaseSchema = "master";
     
