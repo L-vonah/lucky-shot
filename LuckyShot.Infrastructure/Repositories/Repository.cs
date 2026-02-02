@@ -1,5 +1,6 @@
 ﻿using LuckyShot.Domain;
 using LuckyShot.Domain.Entities;
+using LuckyShot.Infrastructure.Data;
 using LuckyShot.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 

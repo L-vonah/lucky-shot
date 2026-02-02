@@ -1,7 +1,7 @@
 using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LuckyShot.Infrastructure;
+namespace LuckyShot.Infrastructure.Data;
 
 public class CompetitionDataContext(DbContextOptions<CompetitionDataContext> options) : DbContext(options)
 {

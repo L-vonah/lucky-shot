@@ -1,4 +1,5 @@
 ﻿using LuckyShot.Domain.Entities;
+using LuckyShot.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace LuckyShot.Infrastructure.Repositories;
