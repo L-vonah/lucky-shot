@@ -7,6 +7,7 @@ using LuckyShot.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using LuckyShot.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -35,9 +36,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add services to the container.
-builder.Services.AddDbContext<LuckyShotContext>(options =>
+builder.Services.AddDbContext<CompetitionDataContext>(options =>
 {
-    options.UseSqlite(connectionString!);
+    options.UseNpgsql(connectionString!, b =>
+    {
+        b.MigrationsHistoryTable("__EFMigrationsHistory", CompetitionDataContext.DatabaseSchema);
+    });
 });
 builder.Services.AddApiFootballServices(builder.Configuration);
 builder.Services.AddScoped<CompetitionRepository>();

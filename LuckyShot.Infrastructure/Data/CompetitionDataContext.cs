@@ -1,10 +1,12 @@
 using LuckyShot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LuckyShot.Infrastructure;
+namespace LuckyShot.Infrastructure.Data;
 
-public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbContext(options)
+public class CompetitionDataContext(DbContextOptions<CompetitionDataContext> options) : DbContext(options)
 {
+    public const string DatabaseSchema = "master";
+    
     public DbSet<Competition> Competitions { get; set; }
     public DbSet<Match> Matches { get; set; }
     public DbSet<Season> Seasons { get; set; }
@@ -12,6 +14,7 @@ public class LuckyShotContext(DbContextOptions<LuckyShotContext> options) : DbCo
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema(DatabaseSchema);
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<Competition>(entity =>

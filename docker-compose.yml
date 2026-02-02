@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:16
+    container_name: luckyshot-postgres
+    environment:
+      POSTGRES_USER: luckyshot
+      POSTGRES_PASSWORD: qQ3Ty5tp3fy5RT9Ml0pN
+      POSTGRES_DB: luckyshot
+    ports:
+      - "5432:5432"
+    volumes:
+      - luckyshot_pgdata:/var/lib/postgresql/data
+
+volumes:
+  luckyshot_pgdata:
