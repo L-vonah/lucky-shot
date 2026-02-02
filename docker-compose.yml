@@ -5,7 +5,7 @@ services:
     container_name: luckyshot-postgres
     environment:
       POSTGRES_USER: luckyshot
-      POSTGRES_PASSWORD: luckyshot
+      POSTGRES_PASSWORD: qQ3Ty5tp3fy5RT9Ml0pN
       POSTGRES_DB: luckyshot
     ports:
       - "5432:5432"
