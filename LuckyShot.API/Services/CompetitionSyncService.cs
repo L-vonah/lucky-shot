@@ -63,7 +63,7 @@ public class CompetitionSyncService(
 
         if (matchesInfoResults.Length > 0)
         {
-            season.MatchesLastUpdated = DateTime.UtcNow;
+            season.MatchesLastUpdated = DateTimeOffset.UtcNow;
             await seasonRepository.UpdateAsync(season);
         }
     }

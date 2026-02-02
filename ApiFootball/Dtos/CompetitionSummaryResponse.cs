@@ -1,4 +1,4 @@
-﻿namespace ApiFootball.Dtos;
+namespace ApiFootball.Dtos;
 
 public record CompetitionSummaryResponse(
     CompetitionResponse Competition,
@@ -17,7 +17,7 @@ public record CompetitionResponse(
 public record CompetitionSeasonBaseResponse(int Id);
 public record CompetitionSeasonResponse(
     int Id,
-    DateTime? StartDate,
-    DateTime? EndDate,
+    DateTimeOffset? StartDate,
+    DateTimeOffset? EndDate,
     int? CurrentMatchday
 ) : CompetitionSeasonBaseResponse(Id);

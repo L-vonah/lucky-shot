@@ -1,7 +1,6 @@
 using ApiFootball.Extensions;
 using LuckyShot.API.Services;
 using LuckyShot.Domain.Services;
-using LuckyShot.Infrastructure;
 using LuckyShot.Infrastructure.ExternalServices;
 using LuckyShot.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;

@@ -17,8 +17,8 @@ public record CompetitionInfoResult(
 
 public record CompetitionSeasonInfoResult(
     int ExternalId,
-    DateTime? StartDate,
-    DateTime? EndDate,
+    DateTimeOffset? StartDate,
+    DateTimeOffset? EndDate,
     int? CurrentRound
 );
 
@@ -30,8 +30,8 @@ public record CompetitionTeamInfoResult(
 
 public record MatchesInfoResult(
     int ExternalId,
-    DateTime MatchDate,
-    DateTime LastUpdatedDate,
+    DateTimeOffset MatchDate,
+    DateTimeOffset LastUpdatedDate,
     int Round,
     MatchStatus Status,
     MatchResult Result,

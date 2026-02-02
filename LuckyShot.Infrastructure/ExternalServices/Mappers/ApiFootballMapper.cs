@@ -34,8 +34,8 @@ public static class ApiFootballMapper
     {
         return new CompetitionSeasonInfoResult(
             ExternalId: response.Id,
-            StartDate: response.StartDate,
-            EndDate: response.EndDate,
+            StartDate: response.StartDate?.ToUniversalTime(),
+            EndDate: response.EndDate?.ToUniversalTime(),
             CurrentRound: response.CurrentMatchday
         );
     }
@@ -67,8 +67,8 @@ public static class ApiFootballMapper
         var score = response.Score;
         return new MatchesInfoResult(
             ExternalId: response.Id,
-            MatchDate: response.UtcDate,
-            LastUpdatedDate: response.LastUpdated,
+            MatchDate: response.UtcDate.ToUniversalTime(),
+            LastUpdatedDate: response.LastUpdated.ToUniversalTime(),
             Round: response.Matchday!.Value,
             Status: response.Status.ToDomainMatchStatus(),
             Result: score.Winner.ToDomainMatchResult(),

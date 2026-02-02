@@ -6,8 +6,8 @@ public record CompetitionMatchResponse(
 
 public record MatchResponse(
     int Id,
-    DateTime UtcDate,
-    DateTime LastUpdated,
+    DateTimeOffset UtcDate,
+    DateTimeOffset LastUpdated,
     int? Matchday,
     string Status,
     TeamBaseResponse HomeTeam,

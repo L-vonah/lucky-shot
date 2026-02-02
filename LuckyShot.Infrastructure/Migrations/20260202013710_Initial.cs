@@ -55,10 +55,10 @@ namespace LuckyShot.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    StartDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    EndDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     ExternalId = table.Column<int>(type: "integer", nullable: false),
-                    MatchesLastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    MatchesLastUpdated = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     CurrentRound = table.Column<int>(type: "integer", nullable: true),
                     CompetitionId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
@@ -81,7 +81,7 @@ namespace LuckyShot.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     Result = table.Column<string>(type: "text", nullable: false),
                     Round = table.Column<int>(type: "integer", nullable: false),

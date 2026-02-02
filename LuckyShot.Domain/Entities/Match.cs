@@ -2,7 +2,7 @@ namespace LuckyShot.Domain.Entities;
 
 public class Match(
     int seasonId,
-    DateTime date,
+    DateTimeOffset date,
     MatchStatus status,
     MatchResult result,
     int round,
@@ -11,7 +11,7 @@ public class Match(
     int externalId) : DatabaseEntity
 {
     public int Id { get; set; }
-    public DateTime Date { get; set; } = date;
+    public DateTimeOffset Date { get; set; } = date;
     public MatchStatus Status { get; set; } = status;
     public MatchResult Result { get; set; } = result;
     public int Round { get; set; } = round;
