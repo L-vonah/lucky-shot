@@ -19,6 +19,8 @@ public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(opti
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => e.Email).IsUnique();
             entity.Property(e => e.Role).HasConversion<string>();
+            entity.Property(e => e.EmailConfirmationTokenHash).HasMaxLength(64).IsRequired(false);
+            entity.Property(e => e.EmailConfirmationExpiresAt).IsRequired(false);
         });
     }
 }
