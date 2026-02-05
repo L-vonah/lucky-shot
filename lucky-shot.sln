@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyShot.API", "LuckyShot.API\LuckyShot.API.csproj", "{E30AFE6E-B55D-4110-A910-105F3B61164A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyShot.Infrastructure", "LuckyShot.Infrastructure\LuckyShot.Infrastructure.csproj", "{C6CCBEF5-0300-418D-8C01-BB279643BAAD}"
@@ -7,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyShot.Domain", "LuckyShot.Domain\LuckyShot.Domain.csproj", "{EBF8532F-AB3F-4347-97F9-F72FD97BE2AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiFootball", "ApiFootball\ApiFootball.csproj", "{10E5D9F1-3788-4682-B72D-DD81604790FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender", "EmailSender\EmailSender.csproj", "{3CBE4C65-EAA5-45FE-943B-F819A303448C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +33,9 @@ Global
 		{10E5D9F1-3788-4682-B72D-DD81604790FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10E5D9F1-3788-4682-B72D-DD81604790FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10E5D9F1-3788-4682-B72D-DD81604790FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CBE4C65-EAA5-45FE-943B-F819A303448C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CBE4C65-EAA5-45FE-943B-F819A303448C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CBE4C65-EAA5-45FE-943B-F819A303448C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CBE4C65-EAA5-45FE-943B-F819A303448C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

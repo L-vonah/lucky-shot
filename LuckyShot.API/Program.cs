@@ -1,4 +1,5 @@
 using ApiFootball.Extensions;
+using EmailSender;
 using LuckyShot.API.Services;
 using LuckyShot.Domain.Entities;
 using LuckyShot.Domain.Services;
@@ -110,6 +111,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 builder.Services.AddApiFootballServices(builder.Configuration);
+builder.Services.AddMailerSendEmail(builder.Configuration);
 builder.Services.AddScoped<CompetitionRepository>();
 builder.Services.AddScoped<MatchRepository>();
 builder.Services.AddScoped<SeasonRepository>();
