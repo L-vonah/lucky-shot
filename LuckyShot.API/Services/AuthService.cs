@@ -8,8 +8,8 @@ namespace LuckyShot.API.Services;
 
 public interface IAuthService
 {
-    Task<AuthResponse> RegisterAsync(RegisterRequest request);
-    Task<AuthResponse> LoginAsync(LoginRequest request);
+    Task<AuthResponse> RegisterAsync(string email, string password, string name);
+    Task<AuthResponse> LoginAsync(string email, string password);
     Task<AuthResponse> RefreshTokenAsync(Guid userId);
     Task<UserResponse> GetCurrentUserAsync(Guid userId);
 }
@@ -23,16 +23,16 @@ public class AuthService(
 {
     private readonly int _accessTokenExpirationMinutes = GetAccessTokenExpirationMinutes(configuration);
 
-    public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+    public async Task<AuthResponse> RegisterAsync(string email, string password, string name)
     {
-        var email = NormalizeEmail(request.Email);
-        if (await userRepository.ExistsAsync(email))
+        var normalizedEmail = NormalizeEmail(email);
+        if (await userRepository.ExistsAsync(normalizedEmail))
         {
             throw new InvalidOperationException("Email is already in use.");
         }
 
-        var user = new User(email, string.Empty, request.Name);
-        user.PasswordHash = passwordHasher.HashPassword(user, request.Password);
+        var user = new User(normalizedEmail, string.Empty, name);
+        user.PasswordHash = passwordHasher.HashPassword(user, password);
 
         await userRepository.AddAsync(user);
 
@@ -40,16 +40,16 @@ public class AuthService(
         return BuildAuthResponse(user, token);
     }
 
-    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    public async Task<AuthResponse> LoginAsync(string email, string password)
     {
-        var email = NormalizeEmail(request.Email);
-        var user = await userRepository.GetByEmailAsync(email);
+        var normalizedEmail = NormalizeEmail(email);
+        var user = await userRepository.GetByEmailAsync(normalizedEmail);
         if (user is null)
         {
             throw new InvalidOperationException("Invalid credentials.");
         }
 
-        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
         if (result == PasswordVerificationResult.Failed)
         {
             throw new InvalidOperationException("Invalid credentials.");

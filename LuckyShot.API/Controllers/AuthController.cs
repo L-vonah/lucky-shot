@@ -16,7 +16,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         try
         {
-            var response = await authService.RegisterAsync(request);
+            var response = await authService.RegisterAsync(request.Email, request.Password, request.Name);
             return Created(string.Empty, response);
         }
         catch (InvalidOperationException ex)
@@ -30,7 +30,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         try
         {
-            var response = await authService.LoginAsync(request);
+            var response = await authService.LoginAsync(request.Email, request.Password);
             return Ok(response);
         }
         catch (InvalidOperationException ex)
@@ -83,3 +83,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         return null;
     }
 }
+
+public record RegisterRequest(string Email, string Password, string Name);
+
+public record LoginRequest(string Email, string Password);
