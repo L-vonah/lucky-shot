@@ -24,6 +24,7 @@
         <ProjectReference Include="..\ApiFootball\ApiFootball.csproj" />
         <ProjectReference Include="..\LuckyShot.Domain\LuckyShot.Domain.csproj" />
         <ProjectReference Include="..\LuckyShot.Infrastructure\LuckyShot.Infrastructure.csproj" />
+        <ProjectReference Include="..\EmailSender\EmailSender.csproj" />
     </ItemGroup>
     
 </Project>

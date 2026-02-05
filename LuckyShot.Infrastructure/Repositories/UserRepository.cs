@@ -11,6 +11,9 @@ public class UserRepository(AuthContext context) : Repository<User, Guid>(contex
     public async Task<User?> GetByEmailAsync(string email) =>
         await Users.SingleOrDefaultAsync(u => u.Email == email);
 
+    public async Task<User?> GetByEmailConfirmationTokenHashAsync(string tokenHash) =>
+        await Users.SingleOrDefaultAsync(u => u.EmailConfirmationTokenHash == tokenHash);
+
     public async Task<bool> ExistsAsync(string email) =>
         await Users.AnyAsync(u => u.Email == email);
 

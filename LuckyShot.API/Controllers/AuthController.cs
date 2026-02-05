@@ -75,6 +75,21 @@ public class AuthController(IAuthService authService) : ControllerBase
         }
     }
 
+    [AllowAnonymous]
+    [HttpGet("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
+    {
+        try
+        {
+            await authService.ConfirmEmailAsync(token);
+            return Ok(new { message = "Email confirmed." });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     private static Guid? GetUserIdFromClaims(ClaimsPrincipal user)
     {
         var subject = user.FindFirstValue(JwtRegisteredClaimNames.Sub)
