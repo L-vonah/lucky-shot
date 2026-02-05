@@ -111,7 +111,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 builder.Services.AddApiFootballServices(builder.Configuration);
-builder.Services.AddMailerSendEmail(builder.Configuration);
+// builder.Services.AddMailerSendEmail(builder.Configuration);
+builder.Services.AddElasticEmail(builder.Configuration);
 builder.Services.AddScoped<CompetitionRepository>();
 builder.Services.AddScoped<MatchRepository>();
 builder.Services.AddScoped<SeasonRepository>();
