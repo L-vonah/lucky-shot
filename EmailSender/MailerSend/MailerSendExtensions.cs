@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 
-namespace EmailSender;
+namespace EmailSender.MailerSend;
 
 public static class MailerSendExtensions
 {

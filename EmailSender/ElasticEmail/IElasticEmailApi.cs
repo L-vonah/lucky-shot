@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Refit;
 
-namespace EmailSender;
+namespace EmailSender.ElasticEmail;
 
 public interface IElasticEmailApi
 {

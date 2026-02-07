@@ -1,5 +1,4 @@
 using ApiFootball.Extensions;
-using EmailSender;
 using LuckyShot.API.Services;
 using LuckyShot.Domain.Entities;
 using LuckyShot.Domain.Services;
@@ -13,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
 using System.Text.Json.Serialization;
+using EmailSender.ElasticEmail;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

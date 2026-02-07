@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 
-namespace EmailSender;
+namespace EmailSender.ElasticEmail;
 
 public static class ElasticEmailExtensions
 {

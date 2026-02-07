@@ -1,7 +1,7 @@
 using LuckyShot.Domain.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace EmailSender;
+namespace EmailSender.MailerSend;
 
 public class MailerSendEmailSender(IMailerSendApi mailerSendApi, IConfiguration configuration) : IEmailSender
 {
