@@ -1,9 +1,11 @@
 using LuckyShot.API.Services;
 using LuckyShot.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LuckyShot.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/competition-sync")]
 public class CompetitionSyncController(ICompetitionSyncService competitionSyncService) : ControllerBase

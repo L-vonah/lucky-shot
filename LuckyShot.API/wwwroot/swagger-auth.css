@@ -1,0 +1,34 @@
+.swagger-login-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.swagger-login-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.swagger-login-section input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.swagger-login-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.swagger-login-error {
+  color: #b00020;
+  font-size: 12px;
+  min-height: 16px;
+}
+
+.swagger-login-hint {
+  font-size: 12px;
+  color: #666;
+}
